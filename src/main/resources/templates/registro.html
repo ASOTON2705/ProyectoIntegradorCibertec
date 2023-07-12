@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headlogin">
+<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	 
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+	<!-- Google fonts -->
+	<link
+			href="https://fonts.googleapis.com/css?family=Muli:300,700&display=swap"
+			rel="stylesheet">
+
+
+	<!-- Ionic icons -->
+	<link
+			href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+			rel="stylesheet">
+
+	<link rel="stylesheet" th:href="@{/css/indexLogin.css}">
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script
+			src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"
+			integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
+			crossorigin="anonymous"></script>
+	<script type="text/javascript" th:src="@{/js/jquery.dataTables.min.js}"></script>
+	<title>Crece Perú</title>
+</head>
+<style>
+	body {
+    overflow: auto;
+    font-family: 'Muli', sans-serif;
+    font-weight: 300;
+    color: var(--primary);
+}
+</style>
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image">
+						<img class="img-fluid" th:src="@{/img/registro_img.png}">
+					</div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+								<h1 class="h3 text-gray-900 mb-4 font-weight-bold">Nueva Cuenta</h1>
+							</div>
+							<form class="user needs-validation" th:action="@{/registro}" method="post"
+								th:object="${usuario}" id="form" novalidate>
+								<div th:if=${param.exito}>
+									<div class="alert alert-info" id="alerta">Se ha registrado
+										exitosamente a la aplicación</div>
+								</div>
+								<div th:if=${errorEmail}>
+									<div class="alert alert-danger" id="alerta"><span th:text="${errorEmail}"></span></div>
+								</div>
+								<div th:if=${errorDni}>
+									<div class="alert alert-danger" id="alerta"><span th:text="${errorDni}"></span></div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="control-label" for="nombres">Nombres : </label>
+										<input id="nombres" type="text" class="form-control"
+											th:field="*{nombres}" autofocus="autofocus"
+											required pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ']{1,9})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9}){0,2}$">
+											<div class="invalid-feedback">Ingrese los nombres correctamente.</div>
+									</div>
+									<div class="col-sm-6">
+										<label class="control-label" for="apellidos">Apellidos
+											: </label> <input id="apellidos" class="form-control"
+											th:field="*{apellidos}" autofocus="autofocus"
+											required pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9}){0,2}$">
+											<div class="invalid-feedback">Ingrese los apellidos correctamente.</div>
+									</div>
+								</div>
+								<div class="form-group row">
+								<div class="col-sm-6 mb-3 mb-sm-0">
+									<label class="control-label" for="dni">DNI : </label> <input
+										id="dni" type="text" class="form-control" th:field="*{dni}"
+										required pattern="^(?! )(?!.*(\d)\1{7})[0-9]{8}">
+										<div class="invalid-feedback">Ingrese el dni correctamente.</div>
+								</div>
+								<div class="col-sm-6">
+									<label class="control-label" for="ubigeo">Ubigeo : </label> <input
+										id="ubigeo" type="text" class="form-control"
+										th:field="*{ubigeo}" autofocus="autofocus"
+										required pattern="^(?! )(?!.*(\d)\1{5})([0-9]{6})">
+										<div class="invalid-feedback">Ingrese el ubigeo correctamente.</div>
+								</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="direccion">Dirección
+										: </label> <input id="direccion" type="text" class="form-control"
+										th:field="*{direccion}" autofocus="autofocus"
+										required pattern="^(?! )([A-Z#0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9#]{1,20})( [A-Z#0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9#]{1,20}){0,6}$">
+										<div class="invalid-feedback">Ingrese la dirección correctamente.</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="telefono">Teléfono :
+									</label> <input id="telefono" type="text" class="form-control"
+										th:field="*{telefono}" autofocus="autofocus"
+										required pattern="^(?! )(?!.*(\d)\1{4})(9[0-9]{8}|01[2-7][0-9]{6})">
+										<div class="invalid-feedback">Ingrese el teléfono correctamente. 
+										Si es fijo debe comenzar con 01. Sin '()', '-' ó espacios en blanco</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="email">Email : </label> <input
+										id="email" type="email" class="form-control"
+										th:field="*{email}" autofocus="autofocus"
+										required><!-- pattern="^(?! )[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$" -->
+										<div class="invalid-feedback">Ingrese el email correctamente.</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="control-label" for="password">Contraseña
+											: </label> <input type="password" id="password" class="form-control"
+											th:field="*{password}" autofocus="autofocus"
+											required pattern="^(?! )(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,15}$">
+										<div class="invalid-feedback">Ingrese una contraseña. La contraseña debe ser de 8 a 15 caracteres. 
+										La contraseña debe tener al menos una letra minuscula, una mayuscula y un número. Sin espacios en blanco.</div>
+									</div>
+									<div class="col-sm-6">
+										<label class="control-label" for="repeatPassword">Repita la Contraseña:</label>
+                                        <input type="password" class="form-control form-control-user"
+                                            id="repeatPassword">
+                                        <div class="invalid-feedback">No coincide la contraseña.</div>    
+                                    </div>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="emailRecuperacion">Email
+										de Recuperación: </label> <input id="emailRecuperacion" type="email"
+										class="form-control" th:field="*{emailRecuperacion}"
+										autofocus="autofocus"
+										required><!-- pattern="^(?! )[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$" -->
+										<div class="invalid-feedback">Ingrese el email de recuperación correctamente.</div>
+								</div>
+								<div class="form-group">
+									<label></label>
+									<div class="text-center">
+										 <button type="submit" class="btn btn-success btn-block"
+										 name="registro-submit" id="submit" value="Registrar">Registrar</button> 
+										<span>Si ya estas registrado <a th:href="@{/login}">Inicia
+												sesión aquí</a></span>
+									</div>
+								</div>
+							</form>
+							<div class="text-center">
+								<a class="small" href="forgot-password.html">¿Olvidó su
+									contraseña?</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+    <script src="js/registro.js"></script>
+    <script>
+	  const passwordInput = document.querySelector("#password");
+	  const repeatPasswordInput = document.querySelector("#repeatPassword");
+	
+	  const validatePassword = () => {
+	    if (passwordInput.value !== repeatPasswordInput.value) {
+	      repeatPasswordInput.setCustomValidity("Las contraseñas no coinciden");
+	    } else {
+	      repeatPasswordInput.setCustomValidity("");
+	    }
+	  };
+	
+	  passwordInput.addEventListener("input", validatePassword);
+	  repeatPasswordInput.addEventListener("input", validatePassword);
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

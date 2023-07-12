@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	
+<head>
+	
+
+<meta charset="utf-8">
+ 
+ 
+ <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous"> 
+
+<!-- Styles -->
+<link rel="stylesheet" href="assets/css/style.css">
+
+<!-- Google fonts -->
+<link
+	href="https://fonts.googleapis.com/css?family=Muli:300,700&display=swap"
+	rel="stylesheet">
+
+<!-- Ionic icons -->
+<link
+	href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css"
+	rel="stylesheet">
+<title>Depósito Bancario</title>
+	<style>
+:root {
+	--primary: #111B54;
+	--light: #ffffff;
+	--grey: #efefef;
+}
+
+body {
+	overflow: hidden;
+	font-family: 'Muli', sans-serif;
+	font-weight: 300;
+	color: var(--primary);
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.bg-primary {
+	background-color: var(--primary) !important;
+}
+
+.bg-light {
+	background-color: var(--light) !important;
+}
+
+.bg-grey {
+	background-color: var(--grey) !important;
+}
+
+.bg-mix {
+	background: linear-gradient(180deg, var(--light) 50%, var(--grey) 0);
+}
+
+.btn-primary {
+	background-color: var(--primary);
+	border: 0;
+}
+
+.btn-primary:hover {
+	background-color: var(--primary);
+}
+
+#sidebar-container {
+	min-height: 100vh;
+}
+
+#sidebar-container .logo {
+	padding: 0.875rem 1.25rem;
+}
+
+#sidebar-container .menu {
+	width: 18rem;
+}
+
+#content {
+	overflow-y: auto;
+	height: 100vh;
+	padding-bottom: 5rem;
+}
+
+.avatar {
+	max-width: 35px;
+}
+
+.btn-search {
+	right: 0;
+}
+
+.stat {
+	border-right: 1px solid var(--grey);
+}
+
+@media ( max-width : 768px) {
+	#sidebar-container {
+		display: none;
+	}
+	.stat {
+		border: 0;
+	}
+}
+</style>
+</head>
+
+
+<body class="bg-gradient-primary">
+	<div class="container">
+
+		<div class="card o-hidden border-0 shadow-lg my-5">
+			<div class="card-body p-0">
+				<div class="row">
+					<div class="col-lg-5 d-none d-lg-block bg-register-image">
+						<img class="img-fluid" th:src="@{/img/registro_img.png}">
+					</div>
+					<div class="col-lg-7">
+						<div class="p-5">
+							<div class="text-center">
+  <h1>Depósito Bancario</h1>
+  <form action="#" th:action="@{/deposito}" th:object="${cuenta}" method="post">
+    <label for="numeroCuenta">Número de cuenta:</label>
+    <input type="text" id="numeroCuenta" th:field="*{numeroCuenta}" />
+    <br />
+    <label for="saldoActual">Cantidad a depositar:</label>
+    <input type="text" id="saldoActual" th:field="*{saldoActual}" />
+    <br />
+    <button type="submit">Depositar</button>
+  </form>
+  
+  <script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous">
+    </script>
+  	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"
+		integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI="
+		crossorigin="anonymous"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

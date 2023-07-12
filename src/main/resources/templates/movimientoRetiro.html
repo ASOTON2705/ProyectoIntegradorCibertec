@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+			<section class="bg-light py-3 d-block d-sm-none">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb" style="background-color: #fafafa; padding-bottom: 0px;">
+			  	<li class="breadcrumb-item"><a th:href="@{/}" class="text-primary">Inicio</a></li>
+			    <li class="breadcrumb-item"><a th:href="@{/registroMovimiento/movimientos}" class="text-primary">Mis Movimientos</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">Retiro</li>
+			  </ol>
+			</nav>
+			</section>
+				<section class="bg-light py-3">
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="p-2">
+								<div class="text-center">
+									<h1 class="h4 text-gray-900 mb-4">Hacer un Retiro</h1>
+								</div>
+								<form class="form needs-validation"
+									th:action="@{/registroMovimiento/retiro}" method="post"
+									th:object="${movimiento}" id="formulario" novalidate>
+									<div th:if=${param.exito}>
+										<div class="alert alert-info" id="alerta">Se ha
+											realizado el retiro exitosamente</div>
+									</div>
+									<div th:if=${param.error}>
+										<div class="alert alert-danger" id="alerta">El saldo 
+										es menor al monto de retiro solicitado</div>
+									</div>
+									<input type="hidden" name="idUsuario" th:value="${#authentication.principal.id}"/>
+									<div class="form-group row">
+										<div class="col-sm-7 mb-3 mb-sm-0">
+											<label for="cuentaBancariaSelect" class="form-label">Cuenta Bancaria:</label>
+											<div class="col">
+												<select th:field="*{id_cuentaBancaria}" class="custom-select"
+													id="cuentaBancariaSelect" required>
+													<option selected value="" required>Seleccione...</option>
+													<option th:each="cb: ${lstCuentasBancarias}" th:value="${cb.id_cuentaBancaria}"
+														th:text="${cb.objBanco.nombre_banco}+' | '+${cb.numeroCuenta}"></option>
+												</select>
+												<div class="invalid-feedback">Seleccione una Cuenta Bancaria.</div>
+											</div>
+										</div>
+										<div class="col-sm-5">
+											<label class="control-label" for="monto">Monto : </label> 
+											<input
+												id="monto" type="number" class="form-control"
+												th:field="*{monto}" autofocus="autofocus" 
+												oninput="removeHyphen(this)" step="0.01" min="0.01" max="10000"
+												required pattern="^(?:[1-9]\d{0,2}(?:,\d{3}){0,2}|[1-9]\d{0,3}(?:\.\d{1,2})?|10000(?:\.00)?)$">
+											<div class="invalid-feedback">El retiro maximo es de 10,0000</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label></label>
+										<div class="text-center">
+											<button type="submit" class="btn btn-success btn-block"
+												name="registroMovimientoRetiro-submit" id="submit"
+												value="Retirar">Retirar</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="col-lg-5 d-none d-lg-block bg-register-image">
+							<img class="img-fluid" th:src="@{/img/retiro_img.jpg}">
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+</body>
+</html>

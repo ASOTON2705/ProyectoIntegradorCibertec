@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+				<section class="bg-light py-3">
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="p-2">
+								<div class="text-center">
+									<h1 class="h4 text-gray-900 mb-4">Registrar una Empresa</h1>
+								</div>
+								<form class="form needs-validation"
+									th:action="@{/registroEmpresa}" method="post"
+									th:object="${empresa}" id="formulario" novalidate>
+									<div th:if=${param.exito}>
+										<div class="alert alert-info" id="alerta">Se ha añadido
+											exitosamente una Empresa</div>
+									</div>
+									<div th:if=${errorRuc}>
+										<div class="alert alert-danger" id="alerta"><span th:text="${errorRuc}"></span></div>
+									</div>
+									<div th:if=${errorRazSoc}>
+										<div class="alert alert-danger" id="alerta"><span th:text="${errorRazSoc}"></span></div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="ruc">RUC Empresa :
+											</label> <input id="ruc" type="text" class="form-control"
+												th:field="*{ruc}" autofocus="autofocus" required
+												pattern="^(?!.*(\d)\1{4})((10|20|15|16|17)\d{9})$">
+											<div class="invalid-feedback">Ingrese el ruc
+												correctamente.</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="razonSocial">Razón
+												Social : </label> <input id="razonSocial" type="text"
+												class="form-control" th:field="*{razonsocial}"
+												autofocus="autofocus" maxlength="80" required
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15}){0,4}$">
+											<div class="invalid-feedback">Ingrese la razon social
+												correctamente.</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="nombreComercial">Nombre
+												Comercial : </label> <input id="nombreComercial" type="text"
+												class="form-control" th:field="*{nombre_comercial}"
+												autofocus="autofocus" maxlength="80" required
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15}){0,4}$">
+											<div class="invalid-feedback">Ingrese el nombre comercial
+												correctamente.</div>
+										</div>
+
+										<div class="col-sm-6">
+											<label class="control-label" for="actividadEconomica">Actividad
+												Economica : </label> <input id="actividadEconomica"
+												class="form-control" th:field="*{actividad_economica}"
+												autofocus="autofocus" maxlength="30" required
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9.]{1,15}){0,4}$">
+											<div class="invalid-feedback">Ingrese la actividad
+												economica correctamente.</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="direcFiscal">Dirección
+												Fiscal : </label> <input id="direcFiscal" class="form-control"
+												th:field="*{direc_fiscal}" autofocus="autofocus" maxlength="150" required
+												pattern="^(?! )([A-Z#0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9#]{1,20})( [A-Z#0-9][a-zA-ZñÑáéíóúÁÉÍÓÚ'0-9#]{1,20}){0,6}$">
+											<div class="invalid-feedback">Ingrese la dirección
+												fiscal correctamente.</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="repLegal">Representante
+												Legal : </label> <input id="repLegal" class="form-control"
+												th:field="*{rep_legal}" autofocus="autofocus" maxlength="60" required 
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ']{1,9})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ']{1,9}){0,4}$">
+											<div class="invalid-feedback">Ingrese el representante
+												legal correctamente.</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="telefono">Telefono
+												: </label> <input id="telefono" type="text" class="form-control"
+												th:field="*{telefono}" autofocus="autofocus" required
+												pattern="^(?! )(?!.*(\d)\1{4})(9[0-9]{8}|01[2-7][0-9]{6})">
+											<div class="invalid-feedback">Ingrese el teléfono
+												correctamente. Si es fijo debe comenzar con 01. Sin '()', '-' ó espacios en blanco</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="email">Email : </label> <input
+												id="email" class="form-control" th:field="*{email}"
+												autofocus="autofocus" type="email" required><!-- pattern="^(?! )[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$" -->
+											<div class="invalid-feedback">Ingrese el email
+												correctamente.</div>
+										</div>
+									</div>
+										<div class="form-group">
+											<label></label>
+											<div class="text-center">
+												<button type="submit" class="btn btn-success btn-block"
+													name="registroEmpresa-submit" id="submit" value="Registrar">Registrar</button>
+											</div>
+										</div>
+								</form>
+							</div>
+						</div>
+						<div class="col-lg-5 d-none d-lg-block bg-register-image">
+							<img class="img-fluid" th:src="@{/img/empresa_img.jpg}">
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+</body>
+</html>

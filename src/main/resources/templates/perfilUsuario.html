@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+			<section class="bg-light py-3 d-block d-sm-none">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb" style="background-color: #fafafa; padding-bottom: 0px;">
+			    <li class="breadcrumb-item"><a th:href="@{/}" class="text-primary">Inicio</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
+			  </ol>
+			</nav>
+			</section>
+				<section class="bg-light py-3">
+					<div class="row">
+						<div class="col-lg-7">
+							<div class="p-2">
+								<div class="text-center">
+									<h1 class="h4 text-gray-900 mb-4">Mi Perfil</h1>
+								</div>
+								<form class="user needs-validation"
+									th:action="@{/perfilUsuario}" method="post"
+									th:object="${usuario}" id="formulario" novalidate>
+									<div th:if=${param.exito}>
+										<div class="alert alert-info" id="alerta">Se ha
+											actualizado exitosamente su perfil</div>
+									</div>
+									<div th:if=${error}>
+										<div class="alert alert-danger" id="alerta" th:text="${error}"></div>
+									</div>
+									<input type="hidden" th:field="*{id}"> <input type="hidden"
+										th:field="*{email}"> <input type="hidden"
+										th:field="*{password}"> <input type="hidden"
+										th:field="*{fechaIngreso}" name="fechaIngreso"> <input
+										type="hidden" th:field="*{estado}">
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="nombres">Nombres :
+											</label> <input id="nombres" type="text" class="form-control"
+												th:field="*{nombres}" autofocus="autofocus" required
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ']{1,9})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9}){0,2}$">
+											<div class="invalid-feedback">Ingrese los nombres
+												correctamente.</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="apellidos">Apellidos
+												: </label> <input id="apellidos" class="form-control"
+												th:field="*{apellidos}" autofocus="autofocus" required
+												pattern="^(?! )([A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9})( [A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ]{1,9}){0,2}$">
+											<div class="invalid-feedback">Ingrese los apellidos
+												correctamente.</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="dni">DNI : </label> <input
+												id="dni" type="text" class="form-control" th:field="*{dni}"
+												readonly>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="ubigeo">Ubigeo : </label> <input
+												id="ubigeo" type="text" class="form-control"
+												th:field="*{ubigeo}" autofocus="autofocus" readonly>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="direccion">Dirección
+											: </label> <input id="direccion" type="text" class="form-control"
+											th:field="*{direccion}" autofocus="autofocus" readonly>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="telefono">Teléfono :
+										</label> <input id="telefono" type="text" class="form-control"
+											th:field="*{telefono}" autofocus="autofocus" required
+											pattern="^(?! )(?!.*(\d)\1{4})(9[0-9]{8}|01[2-7][0-9]{6})">
+										<div class="invalid-feedback">Ingrese el teléfono
+											correctamente. Si es fijo debe comenzar con 01. Sin '()', '-' ó espacios en blanco</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="emailRecuperacion">Email
+											de Recuperación: </label> <input id="emailRecuperacion" type="email"
+											class="form-control" th:field="*{emailRecuperacion}"
+											autofocus="autofocus" required><!-- pattern="^(?! )[a-z0-9._-]+@[a-z0-9.-]+\.[a-z]{2,4}$" -->
+										<div class="invalid-feedback">Ingrese el email de
+											recuperación correctamente.</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label" for="password">Contraseña
+											: </label> <input type="password" id="password" class="form-control"
+											name="userPassword" autofocus="autofocus"
+											required>
+										<div class="invalid-feedback">Debe ingresar su contraseña para validar la 
+										actualización de su perfil.</div>
+									</div>
+									<div class="form-group">
+										<label></label>
+										<div class="text-center">
+											<button type="submit" class="btn btn-success btn-block"
+												name="actualizar-submit" id="submit" value="Guardar">Guardar</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="col-lg-5 d-none d-lg-block bg-register-image">
+							<img class="img-fluid" th:src="@{/img/perfil_img.jpg}">
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+</body>
+</html>

@@ -1,0 +1,390 @@
+CREATE DATABASE  IF NOT EXISTS `aplicacion_creceperu` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `aplicacion_creceperu`;
+-- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+--
+-- Host: localhost    Database: aplicacion_creceperu
+-- ------------------------------------------------------
+-- Server version	8.0.32
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `banco`
+--
+
+DROP TABLE IF EXISTS `banco`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `banco` (
+  `id_banco` int NOT NULL AUTO_INCREMENT,
+  `nombre_banco` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_banco`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `banco`
+--
+
+LOCK TABLES `banco` WRITE;
+/*!40000 ALTER TABLE `banco` DISABLE KEYS */;
+INSERT INTO `banco` VALUES (1,'BCP'),(2,'Interbak'),(3,'BBVA'),(4,'Cencosud'),(5,'ScotiaBank'),(6,'American Express');
+/*!40000 ALTER TABLE `banco` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cuenta_bancaria`
+--
+
+DROP TABLE IF EXISTS `cuenta_bancaria`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cuenta_bancaria` (
+  `id_cuenta_bancaria` int NOT NULL AUTO_INCREMENT,
+  `fecha_registro` datetime DEFAULT NULL,
+  `id` bigint DEFAULT NULL,
+  `id_banco` int DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `numero_cuenta` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_cuenta_bancaria`),
+  KEY `FKetfcfd65f8lkh7ym745mr4e49` (`id_banco`),
+  KEY `FK4vaew2ft8aoraigbyvk7bfl0k` (`id`),
+  CONSTRAINT `FK4vaew2ft8aoraigbyvk7bfl0k` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`),
+  CONSTRAINT `FKetfcfd65f8lkh7ym745mr4e49` FOREIGN KEY (`id_banco`) REFERENCES `banco` (`id_banco`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cuenta_bancaria`
+--
+
+LOCK TABLES `cuenta_bancaria` WRITE;
+/*!40000 ALTER TABLE `cuenta_bancaria` DISABLE KEYS */;
+INSERT INTO `cuenta_bancaria` VALUES (1,'2023-06-01 11:28:13',1,1,0,'1234567890123456'),(2,'2023-06-01 14:19:23',1,6,0,'1234567890123555'),(3,'2023-06-01 20:13:59',2,5,0,'1234567890123466'),(4,'2023-06-06 13:56:17',1,4,2000,'1234567890128899'),(5,'2023-06-08 17:31:15',1,2,0,'1234567890123888'),(6,'2023-06-13 08:30:58',6,4,10000,'1255567890123487'),(7,'2023-06-15 19:56:04',2,5,0,'1234567890123444'),(8,'2023-06-15 20:06:27',7,5,2000,'1234567790123666'),(9,'2023-06-16 10:20:10',1,3,10000,'1234567893444456'),(10,'2023-06-16 23:59:18',8,1,6000,'1235567899123456');
+/*!40000 ALTER TABLE `cuenta_bancaria` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `empresa`
+--
+
+DROP TABLE IF EXISTS `empresa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `empresa` (
+  `id_empresa` int NOT NULL AUTO_INCREMENT,
+  `actividad_economica` varchar(255) DEFAULT NULL,
+  `direc_fiscal` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
+  `fecha_registro` datetime DEFAULT NULL,
+  `nombre_comercial` varchar(255) DEFAULT NULL,
+  `razonsocial` varchar(255) DEFAULT NULL,
+  `rep_legal` varchar(255) DEFAULT NULL,
+  `ruc` varchar(255) DEFAULT NULL,
+  `telefono` int DEFAULT NULL,
+  PRIMARY KEY (`id_empresa`),
+  UNIQUE KEY `UK_fkso2kbttplho71hoeka6px1s` (`ruc`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `empresa`
+--
+
+LOCK TABLES `empresa` WRITE;
+/*!40000 ALTER TABLE `empresa` DISABLE KEYS */;
+INSERT INTO `empresa` VALUES (1,'Aceros','Av Las Palmas 147','jua12_lopez@hotmail.com','Activo','2023-05-30 14:20:54','FierrosCorp','Aceros S.A','Juan Carlos Lopez Miranda','10345678901',915442463),(2,'Construccion','Av Industrial 264','manuramos14@email.com','Activo','2023-05-30 14:35:42','Cemento Fuerte','Cementos S.A.C','Manuel Ramos Collantes Santana','10123478901',945789113),(3,'Maderas','Av Las Palmas 987','jua12_lopez@hotmail.com','Activo','2023-06-01 19:41:37','Maderas Fuertes','Volcam S.A.C','Juan Carlos Lopez','10345456562',987654123),(4,'Huesitos','Av Guillermo 478','baxter@email.com','Activo','2023-06-16 23:46:55','BaxterCorp','Baxter S.A','Nancy Torres','10345678999',987487512);
+/*!40000 ALTER TABLE `empresa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `factura`
+--
+
+DROP TABLE IF EXISTS `factura`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `factura` (
+  `id_factura` varchar(255) NOT NULL,
+  `desc_factura` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
+  `fecharegistro` datetime DEFAULT NULL,
+  `fechavencimiento` datetime DEFAULT NULL,
+  `id` bigint DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `ruc` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_factura`),
+  KEY `FK2ndil9gs4jxjigw3ej6xp0pws` (`ruc`),
+  KEY `FKjumfrnu97s0md3dfguuqtymoi` (`id`),
+  CONSTRAINT `FK2ndil9gs4jxjigw3ej6xp0pws` FOREIGN KEY (`ruc`) REFERENCES `empresa` (`ruc`),
+  CONSTRAINT `FKjumfrnu97s0md3dfguuqtymoi` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `factura`
+--
+
+LOCK TABLES `factura` WRITE;
+/*!40000 ALTER TABLE `factura` DISABLE KEYS */;
+INSERT INTO `factura` VALUES ('F000001','Preuba 01','Activa','2023-05-30 14:21:08','2023-06-06 00:00:00',1,7204,'10345678901'),('F000002','Prueba 02','Activa','2023-05-30 14:21:19','2023-06-06 00:00:00',1,1200,'10345678901'),('F000003','Prueba 03','Activa','2023-05-30 14:21:39','2023-06-06 00:00:00',1,300,'10345678901'),('F000004','Prueba 04','Activa','2023-05-30 14:21:54','2023-06-06 00:00:00',1,5874,'10345678901'),('F000005','Prueba 05','Activa','2023-05-30 14:22:03','2023-06-06 00:00:00',1,7400,'10345678901'),('F000006','Test 06','Activa','2023-05-30 14:25:33','2023-06-06 00:00:00',1,1400,'10345678901'),('F000007','Test 07','Activa','2023-05-30 14:25:42','2023-06-06 00:00:00',1,6540,'10345678901'),('F000008','Test 09','Activa','2023-05-30 14:25:54','2023-06-06 00:00:00',1,740,'10345678901'),('F000009','Test 09','Activa','2023-05-30 14:36:00','2023-07-24 00:00:00',1,4500,'10123478901'),('F000010','Test 10','Activa','2023-05-30 14:36:17','2023-07-20 00:00:00',1,6320,'10123478901'),('F000011','Test 011','Activa','2023-05-30 14:36:34','2023-07-18 00:00:00',1,1250,'10123478901'),('F000012','Prueba 012','Activa','2023-06-01 14:41:17','2023-06-06 00:00:00',1,1000,'10123478901'),('F000013','Prueba 013','Activa','2023-06-01 14:41:27','2023-06-06 00:00:00',1,1000,'10123478901'),('F000014','Prueba 014','Activa','2023-06-01 17:40:31','2023-06-06 00:00:00',1,1000,'10123478901'),('F000015','Pago a proveedores','Activa','2023-06-01 19:41:57','2023-07-19 00:00:00',1,5000,'10345456562'),('F000016','Pago A distribuidores','Activa','2023-06-01 19:42:25','2023-08-26 00:00:00',1,3374.6,'10345456562'),('F000017','Prueba 017','Activa','2023-06-06 14:11:50','2023-06-18 00:00:00',1,2000,'10123478901'),('F000018','Prueba 018','Activa','2023-06-06 14:12:04','2023-06-23 00:00:00',1,1410,'10123478901'),('F000019','Prueba 019','Activa','2023-06-09 10:48:07','2023-07-07 00:00:00',1,2000,'10345678901'),('F000020','Prueba 020','Activa','2023-06-09 12:56:49','2023-07-07 00:00:00',1,1000,'10345678901'),('F000021','Pago A distribuidores','Activa','2023-06-16 11:26:39','2023-07-07 00:00:00',1,10000,'10345456562'),('F000022','Pago a proveedores','Activa','2023-06-16 11:26:48','2023-07-07 00:00:00',1,1200,'10345678901'),('F000023','Pago a Analistas','Activa','2023-06-16 11:27:21','2023-09-30 00:00:00',1,1052,'10345678901'),('F000024','Pago de Huesitos','Activa','2023-06-16 23:48:57','2023-10-24 00:00:00',1,6781,'10345678999'),('F000025','Pago de Cama','Activa','2023-06-16 23:49:18','2023-09-15 00:00:00',1,2450,'10345678999'),('F000026','Pago a Contratistas','Activa','2023-06-19 23:40:30','2023-08-21 00:00:00',1,10000,'10345456562'),('F000027','Pago de Alquiler','Activa','2023-06-19 23:42:04','2023-07-14 00:00:00',1,8700,'10345456562');
+/*!40000 ALTER TABLE `factura` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `movimiento`
+--
+
+DROP TABLE IF EXISTS `movimiento`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `movimiento` (
+  `id_movimiento` int NOT NULL AUTO_INCREMENT,
+  `fecha_movimiento` datetime DEFAULT NULL,
+  `id` bigint DEFAULT NULL,
+  `id_cuenta_bancaria` int DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `tipo_movimiento` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_movimiento`),
+  KEY `FK5ot2a5iekngf3sshm8earf56` (`id_cuenta_bancaria`),
+  KEY `FK8qpcmejgvmylapxadu1u1hi3w` (`id`),
+  CONSTRAINT `FK5ot2a5iekngf3sshm8earf56` FOREIGN KEY (`id_cuenta_bancaria`) REFERENCES `cuenta_bancaria` (`id_cuenta_bancaria`),
+  CONSTRAINT `FK8qpcmejgvmylapxadu1u1hi3w` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movimiento`
+--
+
+LOCK TABLES `movimiento` WRITE;
+/*!40000 ALTER TABLE `movimiento` DISABLE KEYS */;
+INSERT INTO `movimiento` VALUES (1,'2023-06-01 11:30:09',1,1,100,'Deposito'),(2,'2023-06-01 18:51:30',1,1,100,'Retiro'),(3,'2023-06-01 20:14:23',2,3,500,'Deposito'),(4,'2023-06-01 20:14:56',2,3,500,'Retiro'),(5,'2023-06-01 20:18:22',2,3,500,'Deposito'),(6,'2023-06-01 20:18:28',2,3,100,'Retiro'),(7,'2023-06-01 20:28:23',2,3,100,'Retiro'),(8,'2023-06-01 20:36:51',2,3,100,'Retiro'),(9,'2023-06-06 13:44:57',1,2,1000,'Deposito'),(10,'2023-06-06 13:46:17',1,2,1000,'Deposito'),(11,'2023-06-06 13:47:02',1,2,500,'Retiro'),(12,'2023-06-06 13:56:48',1,4,5000,'Deposito'),(13,'2023-06-06 13:57:07',1,2,1000,'Retiro'),(14,'2023-06-10 17:31:06',1,4,3000,'Deposito'),(15,'2023-06-10 17:35:39',1,1,1000,'Retiro'),(16,'2023-06-10 17:37:00',1,1,1000,'Deposito'),(17,'2023-06-10 17:58:23',1,2,1000,'Deposito'),(18,'2023-06-11 12:22:06',1,5,100,'Retiro'),(19,'2023-06-11 12:22:16',1,5,200,'Deposito'),(20,'2023-06-13 08:31:38',6,6,5000,'Deposito'),(21,'2023-06-13 08:32:33',6,6,5000,'Retiro'),(22,'2023-06-15 19:56:14',2,7,10000,'Deposito'),(23,'2023-06-15 20:06:35',7,8,8000,'Deposito'),(24,'2023-06-17 00:00:54',8,10,3000,'Deposito'),(25,'2023-06-17 00:01:31',8,10,1000,'Retiro');
+/*!40000 ALTER TABLE `movimiento` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oportunidad`
+--
+
+DROP TABLE IF EXISTS `oportunidad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oportunidad` (
+  `id_oportunidad` varchar(255) NOT NULL,
+  `calificacion` varchar(255) DEFAULT NULL,
+  `estado` varchar(255) DEFAULT NULL,
+  `fecha_pago` datetime DEFAULT NULL,
+  `fecharegistro` datetime DEFAULT NULL,
+  `id_empresa` int DEFAULT NULL,
+  `monto` double DEFAULT NULL,
+  `rendimiento` double DEFAULT NULL,
+  `tasa_riesgo` double DEFAULT NULL,
+  `monto_disponible` double DEFAULT NULL,
+  PRIMARY KEY (`id_oportunidad`),
+  KEY `FK9wmcdkmi1o9jxb24lki9h57n1` (`id_empresa`),
+  CONSTRAINT `FK9wmcdkmi1o9jxb24lki9h57n1` FOREIGN KEY (`id_empresa`) REFERENCES `empresa` (`id_empresa`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oportunidad`
+--
+
+LOCK TABLES `oportunidad` WRITE;
+/*!40000 ALTER TABLE `oportunidad` DISABLE KEYS */;
+INSERT INTO `oportunidad` VALUES ('O000001','A','Disponible','2023-06-03 00:00:00','2023-05-30 14:22:22',1,21978,10,10,21978),('O000002','A','Disponible','2023-06-03 00:00:00','2023-05-30 14:26:07',1,8680,10,50,8680),('O000003','D','Disponible','2023-06-26 00:00:00','2023-05-30 14:36:57',2,12070,3,25,6400),('O000004','C','Tomada','2023-06-26 00:00:00','2023-06-01 14:41:47',2,2000,5,4,0),('O000005','A','Disponible','2023-06-26 00:00:00','2023-06-01 17:40:43',2,1000,10,6,150),('O000006','B','Disponible','2023-07-15 00:00:00','2023-06-01 19:43:27',3,8374.6,10,2,8374.6),('O000007','A','Disponible','2023-06-26 00:00:00','2023-06-06 14:17:12',2,3410,3,2,3410),('O000008','A','Tomada','2023-07-01 00:00:00','2023-06-09 10:48:23',1,2000,20,5,0),('O000009','C','Tomada','2023-07-06 00:00:00','2023-06-16 11:27:46',1,1000,10,5,0),('O000010','B','Disponible','2023-07-06 00:00:00','2023-06-16 11:28:04',1,1200,25,3,1150),('O000011','A','Disponible','2023-09-25 00:00:00','2023-06-16 11:28:33',1,1052,50,10,1052),('O000012','D','Disponible','2023-07-06 00:00:00','2023-06-16 11:29:01',3,10000,5,3,10000),('O000013','B','Disponible','2023-10-20 00:00:00','2023-06-16 23:55:36',4,6781,25,3,5681),('O000014','B','Disponible','2023-09-10 00:00:00','2023-06-16 23:57:54',4,2450,50,3,2450),('O000015','E','Disponible','2023-08-18 00:00:00','2023-06-19 23:41:05',3,10000,1,80,10000),('O000016','C','Disponible','2023-07-12 00:00:00','2023-06-19 23:42:49',3,8700,15,10,8700);
+/*!40000 ALTER TABLE `oportunidad` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oportunidad_factura`
+--
+
+DROP TABLE IF EXISTS `oportunidad_factura`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oportunidad_factura` (
+  `factura_id` varchar(255) NOT NULL,
+  `oportunidad_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`factura_id`,`oportunidad_id`),
+  KEY `FKt411fg9vqdxgoh21bfw5wx7gg` (`oportunidad_id`),
+  CONSTRAINT `FKjx6h9w3wh5us96q75sl50rwco` FOREIGN KEY (`factura_id`) REFERENCES `factura` (`id_factura`),
+  CONSTRAINT `FKt411fg9vqdxgoh21bfw5wx7gg` FOREIGN KEY (`oportunidad_id`) REFERENCES `oportunidad` (`id_oportunidad`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oportunidad_factura`
+--
+
+LOCK TABLES `oportunidad_factura` WRITE;
+/*!40000 ALTER TABLE `oportunidad_factura` DISABLE KEYS */;
+INSERT INTO `oportunidad_factura` VALUES ('F000001','O000001'),('F000002','O000001'),('F000003','O000001'),('F000004','O000001'),('F000005','O000001'),('F000006','O000002'),('F000007','O000002'),('F000008','O000002'),('F000009','O000003'),('F000010','O000003'),('F000011','O000003'),('F000012','O000004'),('F000013','O000004'),('F000014','O000005'),('F000015','O000006'),('F000016','O000006'),('F000017','O000007'),('F000018','O000007'),('F000019','O000008'),('F000020','O000009'),('F000022','O000010'),('F000023','O000011'),('F000021','O000012'),('F000024','O000013'),('F000025','O000014'),('F000026','O000015'),('F000027','O000016');
+/*!40000 ALTER TABLE `oportunidad_factura` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `oportunidad_usuario`
+--
+
+DROP TABLE IF EXISTS `oportunidad_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `oportunidad_usuario` (
+  `oportunidad_usuario_id` int NOT NULL AUTO_INCREMENT,
+  `fecha_registro` datetime DEFAULT NULL,
+  `ganancia_esperada` double DEFAULT NULL,
+  `monto_invertido` double DEFAULT NULL,
+  `oportunidad_id` varchar(255) DEFAULT NULL,
+  `porcentaje_oportunidad` double DEFAULT NULL,
+  `usuario_id` bigint DEFAULT NULL,
+  PRIMARY KEY (`oportunidad_usuario_id`),
+  KEY `FKj6d79macmf0v54p69t2to1oxq` (`oportunidad_id`),
+  KEY `FKbbapvm9d9c4g6dwbi7m3hxwch` (`usuario_id`),
+  CONSTRAINT `FKbbapvm9d9c4g6dwbi7m3hxwch` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
+  CONSTRAINT `FKj6d79macmf0v54p69t2to1oxq` FOREIGN KEY (`oportunidad_id`) REFERENCES `oportunidad` (`id_oportunidad`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `oportunidad_usuario`
+--
+
+LOCK TABLES `oportunidad_usuario` WRITE;
+/*!40000 ALTER TABLE `oportunidad_usuario` DISABLE KEYS */;
+INSERT INTO `oportunidad_usuario` VALUES (1,'2023-06-11 12:31:08',1.99,200,'O000005',20,1),(2,'2023-06-15 20:04:29',5.42,2000,'O000003',16.570008285004143,2),(3,'2023-06-15 20:05:07',2.71,1000,'O000003',8.285004142502071,2),(4,'2023-06-15 20:07:00',6.97,2570,'O000003',21.292460646230325,7),(5,'2023-06-15 20:08:29',16.27,2000,'O000008',100,7),(6,'2023-06-15 20:09:39',2.98,2000,'O000004',100,2),(7,'2023-06-16 10:38:05',0.66,100,'O000005',10,1),(8,'2023-06-16 10:45:22',0.66,100,'O000005',10,1),(9,'2023-06-16 10:45:24',0.66,100,'O000005',10,1),(10,'2023-06-16 10:45:26',0.66,100,'O000005',10,1),(11,'2023-06-16 10:45:27',0.66,100,'O000005',10,1),(12,'2023-06-16 10:45:38',0.66,100,'O000005',10,1),(13,'2023-06-17 00:04:40',80.56,1000,'O000013',14.74708745022858,8),(14,'2023-06-17 00:05:59',8.06,100,'O000013',1.474708745022858,8),(15,'2023-06-17 00:06:08',0.22,100,'O000003',0.8285004142502072,8),(16,'2023-06-17 00:07:03',0.3,50,'O000005',5,8),(17,'2023-06-17 00:07:14',0.59,50,'O000010',4.166666666666667,8),(18,'2023-06-19 23:25:44',4.51,1000,'O000009',100,1);
+/*!40000 ALTER TABLE `oportunidad_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rol`
+--
+
+DROP TABLE IF EXISTS `rol`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `rol` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rol`
+--
+
+LOCK TABLES `rol` WRITE;
+/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` VALUES (1,'ROLE_ADMIN'),(2,'ROLE_USER'),(3,'ROLE_EMPRESA');
+/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `saldo`
+--
+
+DROP TABLE IF EXISTS `saldo`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `saldo` (
+  `saldo` double DEFAULT NULL,
+  `usuario_id` bigint NOT NULL,
+  PRIMARY KEY (`usuario_id`),
+  CONSTRAINT `FK43ubpg64gl43n53v99i4wdt3e` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `saldo`
+--
+
+LOCK TABLES `saldo` WRITE;
+/*!40000 ALTER TABLE `saldo` DISABLE KEYS */;
+INSERT INTO `saldo` VALUES (7200,1),(5200,2),(0,3),(0,4),(0,5),(0,6),(3430,7),(700,8);
+/*!40000 ALTER TABLE `saldo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario`
+--
+
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `apellidos` varchar(255) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `dni` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `email_recuperacion` varchar(255) DEFAULT NULL,
+  `estado` int DEFAULT NULL,
+  `fecha_ingreso` datetime DEFAULT NULL,
+  `nombres` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `telefono` varchar(255) DEFAULT NULL,
+  `ubigeo` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK5171l57faosmj8myawaucatdw` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario`
+--
+
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES (1,'Herrera Soto','Av Las Rocas 14','12345678','carlos@email.com','carlos472@email.com',1,'2023-05-30 14:20:06','Carlos Manuel','$2a$10$Dl3/eKsf09qrk6tKuBhMnudcAQY0roPBraWdB7cN6M8/XD7hyDqiW','987487319','123456'),(2,'Fuentes Quispe','Av Las Flores 14','87654321','flor@email.com','flor2222@email.com',1,'2023-05-30 14:33:30','Flor Meche','$2a$10$9jA5Z8r.UdKo0SyNeamT1esKC2NAAXD9G.jibo73gG1mx1IYNqlpm','945116451','123456'),(3,'Puentes','Av Flores 487            ','98745612','fuentes@email.com','fuentes2@email.com',1,'2023-06-05 19:17:21','Jorge','$2a$10$Onz5Xo.Q0YUGRWe7cqptGOdBRTx3PcsDREgCIuYwhDY3VP2uMPXQS','987465612','123456'),(4,'Hidalgo ','Av Puentes 14','57841562','jorge@email.com','jorge2@email.com',1,'2023-06-08 07:53:05','Jorge Carlos','$2a$10$YIihWXYYSFdWdq2avvO2Au7AzmIqZCHQ.NPwfwrhTtngBWklhtdom','945784254','123456'),(5,'Power Soto','Av Jiron Flores 01','07745124','max@email.com','max22@email.com',1,'2023-06-09 16:17:36','Max Prime','$2a$10$Yx0iASAc1Ar1pFG2XHa0yufYlJZr93OFDewec1PuNsRUM.EH9KgTm','987546124','123456'),(6,'Prueba','Prueba 06132023','06132023','prueba@email.com','prueba2@email.com',1,'2023-06-13 08:27:08','Usuario Nuevo','$2a$10$5YyCBYbfB4aWdjA69mwZVu7uu937dhOzbseB05xWOF6AjF4.QFDre','987123456','062023'),(7,'Soraluz','AS','54127845','antonio@email.com','sor@email.com',1,'2023-06-15 20:05:54','Antonio','$2a$10$iFVB9Ptv0mWYTatxSrlzz.iSlQCPNehyDe8uVgeXq7TwRc/38zw0m','987545457','123456'),(8,'Torres','Av Fuentes 478','45781478','nancy@email.com','nancy@email.com',1,'2023-06-16 23:44:30','Nancy','$2a$10$UkNLJMiUKpMv7tudxKcWjOees1NF9U2e1MqXablK6cmjI3R0598L6','969872047','123456');
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuario_rol`
+--
+
+DROP TABLE IF EXISTS `usuario_rol`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `usuario_rol` (
+  `usuario_id` bigint NOT NULL,
+  `rol_id` bigint NOT NULL,
+  KEY `FK610kvhkwcqk2pxeewur4l7bd1` (`rol_id`),
+  KEY `FKbyfgloj439r9wr9smrms9u33r` (`usuario_id`),
+  CONSTRAINT `FK610kvhkwcqk2pxeewur4l7bd1` FOREIGN KEY (`rol_id`) REFERENCES `rol` (`id`),
+  CONSTRAINT `FKbyfgloj439r9wr9smrms9u33r` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuario_rol`
+--
+
+LOCK TABLES `usuario_rol` WRITE;
+/*!40000 ALTER TABLE `usuario_rol` DISABLE KEYS */;
+INSERT INTO `usuario_rol` VALUES (3,2),(4,2),(5,2),(1,1),(6,2),(7,2),(8,2),(2,2);
+/*!40000 ALTER TABLE `usuario_rol` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2023-06-20 10:49:36

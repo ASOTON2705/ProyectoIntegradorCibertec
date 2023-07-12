@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head th:replace="layout::head"></head>
+
+<body>
+	<div class="wrapper">
+
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+			<section class="bg-light py-3">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-8">
+							<h1 class="font-weight-bold mb-0 text-left">Oportunidad de Negocio : <span class="font-weight-bold mb-0"
+							th:text="${oportunidadXId.id_oportunidad}"></span> | <span th:class="${oportunidadXId.estado == 'Disponible' ? 'badge badge-success ml-2 text-white font-weight-bold' : 
+			                'badge badge-warning ml-2 text-white font-weight-bold'}" th:text="${oportunidadXId.estado}"></span></h1>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="bg-light py-3">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-8">
+							<div class="card">
+					<div class="card-header">
+						<h5 class="font-weight-bold mb-0 text-left">Inversiones realizadas :</h5>
+					</div>
+						<div class="card-body">
+							<div class="row">
+								<div class="container">
+									<th:block th:if="${#lists.isEmpty(lstOportunidadesUsuario)}">
+										<p class="text-muted text-left">No hay Inversiones registradas en esta
+											oportunidad.</p>
+									</th:block>
+									<th:block th:each="ou : ${lstOportunidadesUsuario}">
+										<div class="col-lg-12">
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Id Usuario: '+' '+${ou.objUsuario.id}"></p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Usuario: '+' '+${ou.objUsuario.nombres}+' '+${ou.objUsuario.apellidos}"></p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'DNI del Usuario: '+' '+${ou.objUsuario.dni}"></p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Email Usuario: '+' '+${ou.objUsuario.email}"></p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Monto Invertido: '+' '+'S/'+${ou.monto_invertido}"></p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Porcentaje de la Oportunidad: '+' '+${ou.porcentaje_oportunidad}+'%'">
+											</p>
+											<p class="card-text font-weight-bold text-left"
+												th:text="'Fecha de la Inversión: '+' '+${#dates.format(ou.fecha_registro, 'MM-dd-yyyy')}">
+											</p>
+											<div class="dropdown-divider"></div>
+											<br>
+										</div>
+									</th:block>
+									<p class="card-title text-dark font-weight-bold text-left">Total de Inversiones realizadas a esta Oportunidad: 
+									<span class="card-title text-dark font-weight-boldcard-title text-dark font-weight-bold" th:text="${conteoInversiones}"></span></p>
+								</div>
+							</div>
+						</div>
+				</div>
+				<br>
+				<div th:if="${totalPages > 1}">
+									    <nav>
+									        <ul class="pagination justify-content-center">
+									            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+									                <a class="page-link" th:href="@{/oportunidad/listaInversionesXOportunidad(page=0, idOportunidad=${idOportunidad})}">Primera</a>
+									            </li>
+									            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+									                <a class="page-link" th:href="@{/oportunidad/listaInversionesXOportunidad(page=${currentPage - 1}, idOportunidad=${idOportunidad})}">Anterior</a>
+									            </li>
+									            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+									                <a class="page-link" th:href="@{/oportunidad/listaInversionesXOportunidad(page=${currentPage + 1}, idOportunidad=${idOportunidad})}">Siguiente</a>
+									            </li>
+									            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+									                <a class="page-link" th:href="@{/oportunidad/listaInversionesXOportunidad(page=${totalPages - 1}, idOportunidad=${idOportunidad})}">Última</a>
+									            </li>
+									        </ul>
+									    </nav>
+									</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
+</body>
+
+</html>

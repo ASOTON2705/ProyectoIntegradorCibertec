@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body> 
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+			<section class="bg-light py-3 d-block d-sm-none">
+			<nav aria-label="breadcrumb">
+			  <ol class="breadcrumb" style="background-color: #fafafa; padding-bottom: 0px;">
+			    <li class="breadcrumb-item"><a th:href="@{/}" class="text-primary">Inicio</a></li>
+			    <li class="breadcrumb-item active" aria-current="page">Mis Movimientos</li>
+			  </ol>
+			</nav>
+			</section>
+				<section class="bg-light py-3">
+					<div class="container">
+						<div class="row">
+							<div class="col-lg-9 col-md-8">
+								<h1 class="font-weight-bold mb-0">
+									Movimientos
+								</h1>
+							</div>
+						</div>
+					</div>
+				</section>	
+				<section class="bg-light py-3">
+					<div class="container">
+						<div class="row">
+						<div class="col-lg-8">
+						    <th:block th:each="movimiento : ${lstMovimientos}">
+						        <div class="card mb-3">
+						        <h5 class="card-header"><span class="text-dark font-weight-bold mb-0" th:text="${movimiento.objCuentaBancaria.objBanco.nombre_banco}"></span> | <span class="text-dark font-weight-bold mb-0" th:text="${movimiento.objCuentaBancaria.numeroCuenta}"></span></h5>
+						          <div class="card-body">
+						            <p class="card-title"><span th:text="${movimiento.tipoMovimiento}"></span> de: <span th:text=" 'S/'+ ${movimiento.monto}"></span></p>
+						            <p class="card-text">Fecha: <span th:text="${movimiento.fechaMovimiento}"></span></p>
+						          </div>
+						        </div>
+						    </th:block>
+					  	<div th:if="${totalPages > 1}">
+								    <nav>
+								        <ul class="pagination justify-content-center">
+								            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+								                <a class="page-link" th:href="@{/registroMovimiento/movimientos(page=0)}">Primera</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+								                <a class="page-link" th:href="@{/registroMovimiento/movimientos(page=${currentPage - 1})}">Anterior</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+								                <a class="page-link" th:href="@{/registroMovimiento/movimientos(page=${currentPage + 1})}">Siguiente</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+								                <a class="page-link" th:href="@{/registroMovimiento/movimientos(page=${totalPages - 1})}">Última</a>
+								            </li>
+								        </ul>
+								    </nav>
+							</div>
+							</div>
+					  	</div>
+					</div>
+				</section>
+			</div>
+		</div>
+</body>
+</html>

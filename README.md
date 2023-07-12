@@ -1,2 +1,1 @@
-# ProyectoIntegradorCibertec
-Proyecto Académico Aplicación Web de Factoring
+# Proyecto-Integrador-T6DN

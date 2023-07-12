@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<div class="wrapper">
+
+	<!-- Sidebar -->
+	<nav th:replace="layout::menulateral"></nav>
+	<!-- Fin sidebar -->
+
+	<div id="content">
+
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <button type="button" id="sidebarCollapse" class="btn" style="background-color: #111B54;">
+                    <i class="icon ion-md-menu lead mr-2 text-white"></i>
+                    <span class="text-white">Menú</span>
+                </button>
+                <button class="btn d-inline-block d-lg-none ml-auto" style="background-color: #111B54;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                   	<i class="icon ion-md-more lead mr-2 text-white"></i>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li><span class="navbar-text text-dark font-weight-bold mb-0" th:text="'Saldo: '+ 'S/'+ ${saldo}+ ' | '"></span></li>
+						<li class="nav-item dropdown"><a
+								class="nav-link text-dark" href="#"
+								id="navbarDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"><span
+								class="text-dark font-weight-bold mb-0" sec:authentication="principal.nombres"></span></a>
+							<div class="dropdown-menu dropdown-menu-right"
+								 aria-labelledby="navbarDropdown" >
+								<a class="btn btn-link link-info" th:href="@{/perfilUsuario}"><i class="icon ion-md-person lead mr-2 text-blue"></i> Mi perfil</a>
+								<div class="dropdown-divider"></div>
+								<form sec:authorize="isAuthenticated()" th:action="@{/logout}"
+									  method="post" th:method="post">
+									<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+									<button type="submit" class="btn btn-link text-danger">
+	                                <i class="icon ion-md-exit lead mr-2 text-danger"></i>
+	                                <span class="text-danger">Salir</span>
+	                                </button>
+								</form>
+							</div></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+		<!-- Fin Navbar -->
+		<!-- Page Content -->
+		<section class="bg-light py-1 d-block d-sm-none">
+		<nav aria-label="breadcrumb">
+		  <ol class="breadcrumb" style="background-color: #fafafa;">
+		    <li class="breadcrumb-item"><a th:href="@{/}" class="text-primary">Inicio</a></li>
+		    <li class="breadcrumb-item active" aria-current="page">Oportunidad</li>
+		  </ol>
+		</nav>
+		</section>
+			<section class="bg-light py-3">
+					<div class="row">
+						<div class="col-lg-6">
+							<div class="p-3">
+								<div class="text-center">
+									<h1 class="h4 text-gray-900 mb-4">Oportunidad de Negocio</h1>
+									<div id="accordion">
+										 <div class="card">
+										    <div class="card-header" id="headingOne">
+										      <h5 class="mb-0">
+										        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+										          Información de la oportunidad
+										        </button>
+										      </h5>
+										    </div>
+										
+										    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+										      <div class="card-body">
+										        <p class="card-title">
+										        <span class="text-dark font-weight-bold" th:text="${oportunidadSelecionada.objEmpresa.razonsocial}"></span> | 
+										        <span class="text-dark font-weight-bold">Calificación: </span><span th:class="${oportunidadSelecionada.calificacion == 'A' ? 
+										        'badge badge-success ml-2 font-weight-bold' : oportunidadSelecionada.calificacion == 'B' ? 'badge badge-info ml-2 font-weight-bold' : 
+										        oportunidadSelecionada.calificacion == 'C' ? 'badge badge-secondary ml-2 font-weight-bold' : oportunidadSelecionada.calificacion == 'D' 
+										        ? 'badge badge-warning ml-2 text-white font-weight-bold' : 'badge badge-danger ml-2 font-weight-bold'}" 
+										        th:text="${oportunidadSelecionada.calificacion}"></span>
+										        </p>
+										        <div class="row">
+										        	<div class="col-lg-6">
+										        		<p class="card-text font-weight-bold text-left" th:text="'Rendimiento: '+${oportunidadSelecionada.rendimiento}+ '%'"></p>
+										        		<p class="card-text font-weight-bold text-left" th:text="'Total de la Oportunidad: '+'S/'+${oportunidadSelecionada.monto}"></p>
+										        	</div>
+										        	<div class="col-lg-6">
+										        		<p class="card-text font-weight-bold text-right" th:text="'Tasa de Riesgo: '+${oportunidadSelecionada.tasa_riesgo}+ '%'"></p>
+										        		<p class="card-text font-weight-bold text-right" th:text="'Disponible a Invertir: '+'S/'+${oportunidadSelecionada.monto_disponible}"></p>
+										        	</div >
+										        </div>
+										        <br>
+										        <p class="card-text font-weight-bold" th:text="'Fecha de Pago: '+${#dates.format(oportunidadSelecionada.fechaPago, 'MM-dd-yyyy')}"></p>
+										      </div>
+										    </div>
+										 </div>
+										 <div class="card">
+										    <div class="card-header" id="headingTwo">
+										      <h5 class="mb-0">
+										        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+										          Inversiones en esta Oportunidad
+										        </button>
+										      </h5>
+										    </div>
+										    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+										      <div class="card-body">
+										       	<div class="row">
+										       	<div class="container">
+										       	<p class="card-title text-dark font-weight-bold text-left"> Últimas tres Inversiones realizadas :</p>
+										       	<div class="dropdown-divider"></div>
+										       	<th:block th:if="${#lists.isEmpty(ultimasInversiones)}">
+									            <p class="text-muted text-left">No hay Inversiones registradas en esta oportunidad.</p>
+									          	</th:block>
+										       	<th:block th:each="u : ${ultimasInversiones}">
+										       		<div class="col-lg-12">
+										       			<p class="card-text font-weight-bold text-left" th:text="'Monto Invertido: '+'S/'+${u.monto_invertido}"></p>
+										       			<p class="card-text font-weight-bold text-left" th:text="'Porcentaje de la Oportunidad: '+${u.porcentaje_oportunidad}+'%'"></p>
+										       			<p class="card-text font-weight-bold text-left" th:text="'Fecha de la Inversión: '+${#dates.format(u.fecha_registro, 'MM-dd-yyyy')}"></p>
+										       			<div class="dropdown-divider"></div>
+										       			<br>
+										       		</div>
+										       	</th:block>
+										       	<p class="card-title text-dark font-weight-bold text-left">Total de Inversiones realizadas a esta Oportunidad: 
+										       	<span class="card-title text-dark font-weight-boldcard-title text-dark font-weight-bold" th:text="${conteoInversiones}"></span></p>
+										       	</div>
+										       	</div>
+										      </div>
+											</div>
+										</div>
+										 <div class="card">
+										    <div class="card-header" id="headingThree">
+										      <h5 class="mb-0">
+										        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+										          Score de la Empresa
+										        </button>
+										      </h5>
+										    </div>
+										    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+										      <div class="card-body">
+											       <table class="table table-bordered table-responsive">
+											       		<thead>
+														    <tr>
+														      <th scope="col"></th>
+														      <th scope="col">Disponibles</th>
+														      <th scope="col">Restrasadas</th>
+														      <th scope="col">Pagadas</th>
+														    </tr>
+														 </thead>
+														 <tbody>
+														 	<tr>
+														      <th scope="row">Oportunidades</th>
+														      <td class="card-text font-weight-bold" th:each="od : ${oportunidadesDisponibles}" th:text="${od.oportunidadesDisponibles}"></td>
+														      <td class="card-text font-weight-bold" th:each="ot : ${oportunidadesRetrasadas}" th:text="${ot.oportunidadesRetrasadas}"></td>
+														      <td class="card-text font-weight-bold" th:each="op : ${oportunidadesPagadas}" th:text="${op.oportunidadesPagadas}"></td>
+														    </tr>
+														    <tr>
+														      <th scope="row">Monto</th>
+														      <td class="card-text font-weight-bold" th:each="od : ${oportunidadesDisponibles}" th:text="'S/'+${od.montoOportunidadesDisponibles}"></td>
+														      <td class="card-text font-weight-bold" th:each="ot : ${oportunidadesRetrasadas}" th:text="'S/'+${ot.montoOportunidadesRetrasadas}"></td>
+														      <td class="card-text font-weight-bold" th:each="op : ${oportunidadesPagadas}" th:text="'S/'+${op.montoOportunidadesPagadas}"></td>
+														    </tr>
+														 </tbody>
+											       </table>
+										      </div>
+											</div>
+										</div>
+										<div class="card">
+										    <div class="card-header" id="headingFour">
+										      <h5 class="mb-0">
+										        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+										          Acerca de la Empresa
+										        </button>
+										      </h5>
+										    </div>
+										    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+										      <div class="card-body">
+										       	<div class="row">
+										       		<div class="col-lg-6">
+										       			<p class="card-text font-weight-bold text-left" th:text="'Razon Social: '+${empresaSeleccionada.razonsocial}"></p>
+										       			<p class="card-text font-weight-bold text-left" th:text="'RUC: '+${empresaSeleccionada.ruc}"></p>
+										       			<p class="card-text font-weight-bold text-left" th:text="'Teléfono: '+${empresaSeleccionada.telefono}"></p>
+										       		</div>
+										       		<div class="col-lg-6">
+										       			<p class="card-text font-weight-bold text-right" th:text="'Nombre Comercial: '+${empresaSeleccionada.nombre_comercial}"></p>
+										       			<p class="card-text font-weight-bold text-right" th:text="'Actividad Economica: '+${empresaSeleccionada.actividad_economica}"></p>
+										       			<p class="card-text font-weight-bold text-right" th:text="'Email: '+${empresaSeleccionada.email}"></p>
+										       		</div>
+										       	</div>
+										      </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+						<div class="container">
+							<div class="text-center">
+								<h1 class="h4 text-gray-900 mb-4">Inversión</h1>
+							</div>
+							<input id="montoTotalOportunidad" type="hidden" class="form-control" th:value="${oportunidadSelecionada.monto}">
+							<input id="montoDisponibleOportunidad" type="hidden" class="form-control" th:value="${oportunidadSelecionada.monto_disponible}">
+							<input id="tasaRiesgo" type="hidden" class="form-control" th:value="${oportunidadSelecionada.tasa_riesgo}">
+							<input id="tasaAnual" type="hidden" class="form-control" th:value="${oportunidadSelecionada.rendimiento}">
+							<input id="tasaMensual" type="hidden" class="form-control">
+							<input id="fechaInicio" type="hidden" class="form-control">
+							<input id="fechaFinal" type="hidden" class="form-control" th:value="${#dates.format(oportunidadSelecionada.fechaPago, 'MM-dd-yyyy')}">
+							<input id="dias" type="hidden" class="form-control">
+							<form class="form needs-validation" th:action="@{/verOportunidad}" method="post" 
+							id="formulario" action="" th:object="${OportunidadUsuario}" novalidate>
+							<div th:if=${param.exito}>
+								<div class="alert alert-info" id="alerta">Se ha realizado
+								la inversión exitosamente</div>
+							</div>
+							<div th:if=${param.error}>
+								<div class="alert alert-danger" id="alerta">El monto a invertir es mayor 
+								al saldo disponible de la cuenta</div>
+							</div>
+								<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="inversion">Monto
+												a Invertir(S/) : </label> <input id="inversion" type="number" 
+												class="form-control" th:field="*{monto_invertido}" autofocus="autofocus" step="0.01" min="1" max="100000"
+												pattern="^(?:[1-9]\d{0,2}(?:,\d{3}){0,2}|[1-9]\d{0,3}(?:\.\d{1,2})?|100000(?:\.00)?)$" required>
+											<div id="montoInvalidoFeedback" class="invalid-feedback">Ingrese un monto valido.
+												La inversión no puede ser mayor a lo disponible a invertir.</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="bonificacion">Bonificación
+												por Tasa de Riesgo(S/) : </label> <input id="bonificacion" type="text" 
+												class="form-control" readonly>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="porcentajeOportunidad">Porcentaje
+												de la Oportunidad(%) : </label> <input id="porcentajeOportunidad" type="text" 
+												class="form-control" th:field="*{porcentaje_oportunidad}" readonly>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="ganancia">Ganancia
+												de la Inversión(S/) : </label> <input id="ganancia" type="text" 
+												class="form-control" th:field="*{ganancia_esperada}" readonly>
+										</div>
+									</div>
+									<div class="form-group row d-none">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+										<label class="control-label" for="Id_Oportunidad">Id
+												de la Oportunidad : </label><input id="Id_Oportunidad" 
+												type="text"  name="Id_Oportunidad" class="form-control"
+												th:value="${oportunidadSelecionada.id_oportunidad}"/>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="RazonSocial">Razón
+											Social: </label><input id="RazonSocial" 
+											type="text"  name="RazonSocial" class="form-control"
+											th:value="${oportunidadSelecionada.objEmpresa.razonsocial}"/>
+										</div>
+									</div>
+									<div class="form-group">
+											<label></label>
+											<div class="text-center">
+												<button type="submit" class="btn btn-success btn-block"
+													name="tomaOportunidad-submit" id="submit" value="Invertir">Invertir</button>
+											</div>
+									</div>
+							</form>
+						</div>
+						</div>
+					</div>
+				</section>
+
+	</div>
+</div>
+<script type="text/javascript">
+    var tasaDiaria = 0.0;    
+    $(document).ready(function(){
+        var tasaAnual = $("#tasaAnual").val();
+        var tasaMensual = (Math.pow(1 + tasaAnual/100, 1.0/12.0) -1) * 100;
+        tasaDiaria = (Math.pow(1 + tasaMensual/100, 1.0/30.0) -1) * 100;
+        
+        $("#tasaMensual").val(tasaMensual);     
+        
+        var xfecINI = new Date();
+        $("#fechaInicio").val((xfecINI.getMonth() + 1) +"-"+xfecINI.getDate()+"-"+xfecINI.getFullYear());
+        var xfecIni = new Date($("#fechaInicio").val());
+        var xfecFin = new Date($("#fechaFinal").val());
+        var diffTime = xfecFin.getTime() - xfecIni.getTime();
+        var diferenciaDias = Math.ceil(diffTime / 86400000);  
+        $("#dias").val(diferenciaDias);
+    });
+    
+     var montoDisponible = parseFloat($("#montoDisponibleOportunidad").val());
+
+     $("#inversion").keyup(function() {
+       var montoTotal = parseFloat($("#montoTotalOportunidad").val());
+       var montoInvertido = parseFloat($("#inversion").val());
+       var tasaRiesgo = parseFloat($("#tasaRiesgo").val());
+
+       if (montoInvertido > montoDisponible) {
+       } else {
+         var porcentaje = (montoInvertido * 100) / montoTotal;
+         $("#porcentajeOportunidad").val(porcentaje);
+
+         var dias = $("#dias").val();
+         var ganancia = montoInvertido * (Math.pow(1 + tasaDiaria / 100, dias) - 1);
+         var bonificacion = 0;
+ 	    if (tasaRiesgo > 5 && tasaRiesgo <= 20) {
+ 	      bonificacion = ganancia * 1.5;
+ 	    } else if (tasaRiesgo > 20 && tasaRiesgo <= 50) {
+ 	      bonificacion = ganancia * 2;
+ 	    } else if (tasaRiesgo > 50) {
+ 	      bonificacion = ganancia * 3;
+ 	    }
+ 	   var gananciaTotal = ganancia + bonificacion;
+ 	   
+         var gananciaTotalRedondeada = gananciaTotal.toFixed(2);
+         $("#ganancia").val(gananciaTotalRedondeada);
+         $("#bonificacion").val(bonificacion.toFixed(2));
+       }
+     });
+
+   
+		(() => {
+			  'use strict';
+
+			  const forms = document.querySelectorAll('.needs-validation');
+
+			  Array.from(forms).forEach(form => {
+			    form.addEventListener('submit', event => {
+			      if (!form.checkValidity()) {
+			        event.preventDefault();
+			        event.stopPropagation();
+			      } else {
+			        const montoInvertido = parseFloat($("#inversion").val());
+			        const montoDisponible = parseFloat($("#montoDisponibleOportunidad").val());
+
+			        if (montoInvertido > montoDisponible) {
+			          event.preventDefault();
+			          event.stopPropagation();
+			          $("#montoInvalidoFeedback").show();
+			        }
+			      }
+
+			      form.classList.add('was-validated');
+			    }, false);
+			  });
+			})();
+
+	
+		setTimeout(function(){
+		    var alertaElement = document.getElementById('alerta');
+		    if (alertaElement) {
+		        alertaElement.remove();
+		    }
+		}, 3000);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

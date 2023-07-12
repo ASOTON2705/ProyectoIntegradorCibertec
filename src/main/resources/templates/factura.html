@@ -1,0 +1,141 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+				<section class="bg-light py-3">
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="p-2">
+								<div class="text-center">
+									<h1 class="h4 text-gray-900 mb-4">Añadir una 
+										Factura</h1>
+								</div>
+								<form class="form needs-validation"
+									th:action="@{/registroFactura}" method="post"
+									th:object="${factura}" id="formulario" novalidate>
+									<div th:if=${param.exito}>
+										<div class="alert alert-info" id="alerta">Se ha
+											añadido exitosamente la Factura</div>
+									</div>
+									
+									<div class="form-group">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label class="control-label" for="idFactura">Código de Factura : </label> <input
+												id="idFactura" type="text" class="form-control" 
+												autofocus="autofocus" th:value="${IdFactura}" readonly>
+										</div>
+									</div> 
+									<div class="form-group">
+										<div class="col-sm-12 mb-3 mb-sm-0">
+											<label class="control-label" for="descFactura">Descripción de
+												Factura : </label> <input  id="descFactura" type="text"
+												class="form-control" th:field="*{desc_factura}"
+												autofocus="autofocus" required maxlength="150"
+												pattern="^(?! )([a-zA-ZñÑáéíóúÁÉÍÓÚ\d\.]{1,}([ ]{0,1}[a-zA-ZñÑáéíóúÁÉÍÓÚ\d\.]{1,}){0,})([ ]{0,1}[a-zA-ZñÑáéíóúÁÉÍÓÚ\d\.]{1,2})?$">
+											<div class="invalid-feedback">Ingrese una descripción
+												a la factura.</div>
+										</div>
+									</div>
+									<div class="form-group row">
+										<div class="col-sm-6 mb-3 mb-sm-0">
+											<label for="empresaSelect" class="control-label">Empresa:</label>
+											<div class="col">
+												<select th:field="*{ruc}" class="custom-select"
+													id="empresaSelect" required>
+													<option selected value="" required>Seleccione...</option>
+													<option th:each="e: ${lstEmpresa}" th:value="${e.ruc}"
+														th:text="${e.razonsocial}"></option>
+												</select>
+												<div class="invalid-feedback">Seleccione un banco.</div>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<label class="control-label" for="fechaVencimiento">Fecha
+												de Vencimiento : </label> <input id="fechaVencimiento" type="text"
+												class="form-control" th:field="*{fechavencimiento}"
+												autofocus="autofocus" placeholder="Mes/Día/Año" required>
+											<div class="invalid-feedback">Ingrese una fecha en el 
+											formato correcto (MM/DD/AAAA). La fecha debe ser posterior 
+											al día de hoy.</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-6">
+											<label class="control-label" for="monto">Monto : </label> <input
+												id="monto" type="number" class="form-control"
+												th:field="*{monto}" autofocus="autofocus" 
+												oninput="removeHyphen(this)" step="0.01" min="50" max="10000"
+												required pattern="^(?:[1-9]\d{0,2}(?:,\d{3}){0,2}|[1-9]\d{0,3}(?:\.\d{1,2})?|10000(?:\.00)?)$">
+											<div class="invalid-feedback">Ingrese un monto
+												correctamente. Minimo S/100.00. Máximo S/10,000.00.</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label></label>
+										<div class="text-center">
+											<button type="submit" class="btn btn-success btn-block"
+												name="registroFactura-submit" id="submit"
+												value="Registrar">Registrar</button>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+						<div class="col-lg-4 d-none d-lg-block bg-register-image">
+							<img class="img-fluid" th:src="@{/img/factura_img.jpg}">
+						</div>
+					</div>
+				</section>
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	const fechaVencimientoInput = document.getElementById('fechaVencimiento');
+	fechaVencimientoInput.addEventListener('input', function(e) {
+	  let inputValue = e.target.value;
+	  inputValue = inputValue.replace(/\D/g, ''); 
+	  inputValue = inputValue.substring(0, 8); 
+	
+	  if (inputValue.length > 4) {
+	    inputValue = inputValue.replace(/(\d{2})(\d{2})(\d{0,4})/, '$1/$2/$3');
+	  } else if (inputValue.length > 2) {
+	    inputValue = inputValue.replace(/(\d{2})(\d{0,2})/, '$1/$2');
+	  }
+	  e.target.value = inputValue;
+	
+	  // Validar formato de fecha
+	  const dateRegex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(19|20)\d{2}$/;
+	  const isDateValid = dateRegex.test(inputValue);
+	
+	  if (!isDateValid) {
+	    e.target.setCustomValidity('Ingrese una fecha en el formato correcto (DD/MM/AAAA).');
+	  } else {
+	    // Validar fecha
+	    const currentDate = new Date();
+	    const selectedDate = new Date(inputValue);
+	
+	    currentDate.setHours(0, 0, 0, 0); // Establecer la hora a 00:00:00 para comparar solo las fechas
+	
+	    if (selectedDate <= currentDate) {
+	      e.target.setCustomValidity('La fecha debe ser posterior al día de hoy.');
+	    } else {
+	      e.target.setCustomValidity('');
+	    }
+	  }
+	});
+</script>
+</html>

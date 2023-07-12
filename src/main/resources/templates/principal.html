@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<div class="wrapper">
+
+	<!-- Sidebar -->
+	<nav th:replace="layout::menulateral"></nav>
+	<!-- Fin sidebar -->
+
+	<div id="content">
+
+		<!-- Navbar -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn" style="background-color: #111B54;">
+                    <i class="icon ion-md-menu lead mr-2 text-white"></i>
+                    <span class="text-white">Menú</span>
+                </button>
+                <button class="btn d-inline-block d-lg-none ml-auto" style="background-color: #111B54;" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="icon ion-md-more lead mr-2 text-white"></i>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                	<form class="form-inline position-relative d-inline-block my-2"
+					th:action="@{/}" method="get">
+						<input class="form-control ml-sm-2" type="search" placeholder="Buscar"
+							   aria-label="Buscar" name="filtro">
+						<button class="btn btn-search my-2 my-sm-0" type="submit">
+							<i class="icon ion-md-search"></i>
+						</button>
+					</form>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li><span class="navbar-text text-dark font-weight-bold mb-0" th:text="'Saldo: '+ 'S/'+ ${saldo}+ ' | '"></span></li>
+						<li class="nav-item dropdown"><a
+								class="nav-link text-dark" href="#"
+								id="navbarDropdown" role="button" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false"><span
+								class="text-dark font-weight-bold mb-0" sec:authentication="principal.nombres"></span></a>
+							<div class="dropdown-menu dropdown-menu-right"
+								 aria-labelledby="navbarDropdown" >
+								<a class="btn btn-link link-info" th:href="@{/perfilUsuario}"><i class="icon ion-md-person lead mr-2 text-blue"></i> Mi perfil</a>
+								<div class="dropdown-divider"></div>
+								<form sec:authorize="isAuthenticated()" th:action="@{/logout}"
+									  method="post" th:method="post">
+									<input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+									<button type="submit" class="btn btn-link text-danger">
+	                                <i class="icon ion-md-exit lead mr-2 text-danger"></i>
+	                                <span class="text-danger">Salir</span>
+	                                </button>
+								</form>
+							</div></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+		<!-- Fin Navbar -->
+
+		<!-- Page Content -->
+			<section class="bg-light py-3">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-8">
+							<h1 class="font-weight-bold mb-0">Oportunidades de Negocio</h1>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="bg-light py-3">
+			  <div class="container">
+			    <div class="row card-deck">
+			      <div class="col-lg-12">
+			        <div class="row">
+			          <th:block th:each="o : ${lstOportunidades}">
+			            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+			              <div class="card">
+			                <h5 class="card-header"><span class="text-dark font-weight-bold mb-0" th:text="${o.objEmpresa.razonsocial}"></span> | <span class="text-dark font-weight-bold mb-0">Calificación: </span><span th:class="${o.calificacion == 'A' ? 'badge badge-success ml-2 text-white font-weight-bold' : 
+			                o.calificacion == 'B' ? 'badge badge-info ml-2 text-white font-weight-bold' : o.calificacion == 'C' ? 'badge badge-secondary ml-2 text-white font-weight-bold' : o.calificacion == 'D' ? 'badge badge-warning ml-2 text-white font-weight-bold' : 
+			                'badge badge-danger ml-2 text-white font-weight-bold'}" th:text="${o.calificacion}"></span></h5>
+			                <div class="card-body">
+			                  <p class="card-title font-weight-bold text-dark"><span th:text="'Monto Disponible por Invertir: '+'S/'+${o.monto_disponible}"></span> | <span th:text="'Rendimiento: '+${o.rendimiento + '%'}"></span></p>
+			                  <p class="card-text font-weight-bold"><span th:text="'Monto Total: '+'S/'+${o.monto}"></span></p>
+			                  <p class="card-text font-weight-bold">Tasa de Riesgo: <span th:text="${o.tasa_riesgo + '%'}"></span></p>
+			                  <p class="card-text font-weight-bold">Fecha de Pago: <span th:text="${#dates.format(o.fechaPago, 'MM-dd-yyyy')}"></span></p>
+			                  <a th:href="@{/verOportunidad(idOportunidad=${o.id_oportunidad}, razonsocial=${o.objEmpresa.razonsocial})}" class="btn btn-primary mt-3">Invertir</a>
+			                </div>
+			              </div>
+			            </div>
+			          </th:block>
+			        </div>
+			        <div th:if="${totalPages > 1}">
+								    <nav>
+								        <ul class="pagination justify-content-center">
+								            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+								                <a class="page-link" th:href="@{/(page=0, filtro=${filtro})}">Primera</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+								                <a class="page-link" th:href="@{/(page=${currentPage - 1}, filtro=${filtro})}">Anterior</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+								                <a class="page-link" th:href="@{/(page=${currentPage + 1}, filtro=${filtro})}">Siguiente</a>
+								            </li>
+								            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+								                <a class="page-link" th:href="@{/(page=${totalPages - 1}, filtro=${filtro})}">Última</a>
+								            </li>
+								        </ul>
+								    </nav>
+							</div>
+			      </div>
+			    </div>
+			  </div>
+			</section>
+
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

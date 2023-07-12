@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<div class="wrapper">
+
+	<!-- Sidebar -->
+	<nav th:replace="layout::menulateral"></nav>
+	<!-- Fin sidebar -->
+
+	<div id="content">
+
+		<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+		<!-- Page Content -->
+			<section class="bg-light py-3">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-8">
+							<h1 class="font-weight-bold mb-0 text-center">Listado de Oportunidades de Negocio</h1>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="bg-light py-3">
+			      <div class="col-lg-12">
+					<form class="form flex-column" th:action="@{/oportunidad/listaDeOportunidades}" method="get">
+						<div class="form-row">
+						  <div class="form-group col-md-4 mb-md-0">
+						    <label for="razonSocial" class="control-label">Razón Social :</label>
+						    <input type="text" class="form-control" id="razonSocial" name="razonsocial">
+						  </div>
+						  <div class="form-group col-md-4 mb-md-0">
+						    <label for="ruc" class="control-label">Ruc :</label>
+						    <input type="text" class="form-control" id="ruc" name="ruc">
+						  </div>
+						  <div class="form-group col-md-4 mb-md-0">
+						    <label for="fechaRegistro" class="control-label">Fecha de Registro :</label>
+						    <input type="text" class="form-control fechaformato" id="fechaRegistro" name="fecharegistro"
+						    autofocus="autofocus" placeholder="Mes-Día-Año">
+						  </div>
+						 </div>
+						 <div class="form-row">
+						  <div class="form-group col-md-4 mb-md-0">
+						    <label for="fechaPago" class="control-label">Fecha de Pago :</label>
+						    <input type="text" class="form-control fechaformato" id="fechaPago" name="fechaPago"
+						    autofocus="autofocus" placeholder="Mes-Día-Año">
+						  </div>
+						  <div class="form-group col-md-4 mb-md-0">
+						  	<label for="calificacion" class="control-label">Calificación :</label>
+							<select class="custom-select" id="calificacion" name="calificacion">
+								<option selected value="">Seleccione...</option>
+								<option value="A">A</option>
+								<option value="B">B</option>
+								<option value="C">C</option>
+								<option value="D">D</option>
+								<option value="E">E</option>
+							</select>
+						  </div>
+						  <div class="form-group col-md-4 mb-md-0">
+						    <label for="estado" class="control-label">Estado :</label>
+						    <select class="custom-select" id="estado" name="estado">
+								<option selected value="">Seleccione...</option>
+								<option value="Disponible">Disponible</option>
+								<option value="Tomada">Tomada</option>
+							</select>
+						  </div>
+						 </div>
+						 <div class="form-group">
+						 	<div class="text-center">
+						 		<label></label>
+								<button type="submit" class="btn btn-primary btn-block">Buscar</button>
+							</div>
+						 </div>			  
+					</form>
+						<table class="table table-bordered table-responsive w-100">
+							<thead>
+								<tr>
+									<th scope="col">Id Oportunidad</th>
+									<th scope="col">Estado</th>
+									<th scope="col">Calificación</th>
+									<th scope="col">Razón Social</th>
+									<th scope="col">Fecha de Registro</th>
+									<th scope="col">Fecha de Pago</th>
+									<th scope="col">Monto Total</th>
+									<th scope="col">Monto Disponible</th>
+									<th scope="col">Rendimiento</th>
+									<th scope="col">Tasa de Riesgo</th>
+									<th scope="col"></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="o: ${lstOportunidades}">
+									<td th:text="${o.id_oportunidad}"></td>
+									<td th:text="${o.estado}"></td>
+									<td th:text="${o.calificacion}"></td>
+									<td th:text="${o.objEmpresa.razonsocial}"></td>
+									<td th:text="${#dates.format(o.fecharegistro, 'MM-dd-yyyy')}"></td>
+									<td th:text="${#dates.format(o.fechaPago, 'MM-dd-yyyy')}"></td>
+									<td th:text="'S/'+${o.monto}"></td>
+									<td th:text="'S/'+${o.monto_disponible}"></td>
+									<td th:text="${o.rendimiento}+'%'"></td>
+									<td th:text="${o.tasa_riesgo}+'%'"></td>
+									<td>
+										<form th:action="@{/oportunidad/listaInversionesXOportunidad}" method="get">
+											<input type="hidden" name="idOportunidad" th:value="${o.id_oportunidad}">
+											<button type="submit" class="btn btn-info"><i class="icon ion-md-information-circle-outline lead mr-2"></i></button>						
+										</form>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div th:if="${totalPages > 1}">
+						    <nav>
+						        <ul class="pagination justify-content-center">
+						            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+						                <a class="page-link" th:href="@{/oportunidad/listaDeOportunidades(page=0, razonsocial=${razonsocial}, ruc=${ruc}, fecharegistro=${fecharegistro}, fechaPago=${fechaPago}, calificacion=${calificacion}, estado=${estado})}">Primera</a>
+						            </li>
+						            <li class="page-item" th:classappend="${currentPage == 0} ? disabled">
+						                <a class="page-link" th:href="@{/oportunidad/listaDeOportunidades(page=${currentPage - 1}, razonsocial=${razonsocial}, ruc=${ruc}, fecharegistro=${fecharegistro}, fechaPago=${fechaPago}, calificacion=${calificacion}, estado=${estado})}">Anterior</a>
+						            </li>
+						            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+						                <a class="page-link" th:href="@{/oportunidad/listaDeOportunidades(page=${currentPage + 1}, razonsocial=${razonsocial}, ruc=${ruc}, fecharegistro=${fecharegistro}, fechaPago=${fechaPago}, calificacion=${calificacion}, estado=${estado})}">Siguiente</a>
+						            </li>
+						            <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? disabled">
+						                <a class="page-link" th:href="@{/oportunidad/listaDeOportunidades(page=${totalPages - 1}, razonsocial=${razonsocial}, ruc=${ruc}, fecharegistro=${fecharegistro}, fechaPago=${fechaPago}, calificacion=${calificacion}, estado=${estado})}">Última</a>
+						            </li>
+						        </ul>
+						    </nav>
+						</div>
+			      </div>
+			</section>
+	</div>
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+	  $('.fechaformato').keyup(function() {
+	    var dateValue = $(this).val();
+	    if (dateValue.length === 2) {
+	      $(this).val(dateValue + '-');
+	    } else if (dateValue.length === 5) {
+	      $(this).val(dateValue + '-');
+	    } else if (dateValue.length > 10) {
+	      $(this).val(dateValue.slice(0, 10));
+	    }
+	  });
+	});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

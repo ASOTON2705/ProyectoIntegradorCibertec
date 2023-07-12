@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head th:replace="layout::head"></head>
+<body>
+<script th:src="@{/js/registro-cuenta-bancaria-deposito.js}"></script>
+	<div class="wrapper">
+		<!-- Sidebar -->
+		<nav th:replace="layout::menulateral"></nav>
+		<!-- Fin sidebar -->
+
+		<div id="content">
+
+			<!-- Navbar -->
+			<nav th:replace="layout::navperfil"></nav>
+			<!-- Fin Navbar -->
+
+			<!-- Page Content -->
+			<iframe title="PowerBI_Dashboard" width="100%" height="85%" src="https://app.powerbi.com/view?r=eyJrIjoiNjE1YTYzZjktYWYxNy00ZTQxLWEyMGMtMDEyODY5YmQ5MDFhIiwidCI6Ijc1MDRlMzE4LThlMWUtNGQ1NS1iZmZkLTg3NWI0ZGVlODI2MCIsImMiOjR9" frameborder="0" allowFullScreen="true"></iframe>
+		</div>
+	</div>
+</body>
+</html>
